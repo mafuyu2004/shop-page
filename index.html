@@ -10,7 +10,8 @@
     <!-- Open Graph for Facebook/Line Sharing -->
     <meta property="og:title" content="อุทัย อุปกรณ์นากุ้ง - เครื่องยนต์มือสองเกรด A+">
     <meta property="og:description" content="เชี่ยวชาญเรื่อง Kubota ET & RT คัดสภาพพร้อมใช้ เช็คจบ ครบ พร้อมลุย">
-    <meta property="og:image" content="https://placehold.co/1200x630/dc2626/white?text=Uthai+Shop">
+    <!-- หมายเหตุ: OG Image ควรเป็น Full URL (https://...) เพื่อให้ Facebook/Line ดึงรูปได้ถูกต้อง -->
+    <meta property="og:image" content="https://dummyimage.com/1200x630/dc2626/ffffff?text=Uthai+Shop">
     <meta property="og:url" content="https://www.uthaishop.com">
     <meta property="og:type" content="website">
 
@@ -389,15 +390,16 @@
         });
 
         // Mock Product Data
+        // IMPORTANT: Updated image paths to relative 'images/' folder as requested
         const products = [
-            { id: 1, model: "ET", name: "Kubota ET 80", price: 9500, image: "https://placehold.co/800x600/b91c1c/white?text=ET+80", desc: "เครื่องยนต์ดีเซล 8 แรงม้า ราคาประหยัดสุดคุ้ม เหมาะสำหรับผู้เริ่มต้น หรือใช้งานทั่วไป เครื่องเดิมๆ เช็คระบบเรียบร้อย", badge: "Hot Deal" },
-            { id: 2, model: "ET", name: "Kubota ET 95", price: 15500, image: "https://placehold.co/800x600/b91c1c/white?text=ET+95", desc: "ขนาด 9.5 แรงม้า พลังแรง ประหยัดน้ำมัน สภาพพร้อมใช้งาน 90% รับประกันคุณภาพ สีเดิมโรงงาน ไม่เคยแกะซ่อมใหญ่", badge: "แนะนำ" },
-            { id: 3, model: "ET", name: "Kubota ET 110", price: 19500, image: "https://placehold.co/800x600/b91c1c/white?text=ET+110", desc: "ยอดนิยม! 11 แรงม้า อะไหล่หาง่าย ซ่อมบำรุงไม่แพง สภาพสวยกริ๊บ พร้อมใช้งานทันที เดินเบานิ่ง เสียงเพราะ", badge: "ขายดี" },
-            { id: 4, model: "ET", name: "Kubota ET 115", price: 22500, image: "https://placehold.co/800x600/b91c1c/white?text=ET+115", desc: "ตัวแรงรุ่นใหญ่ 11.5 แรงม้า กำลังอัดดีเยี่ยม เสียงนิ่ม เดินเบานิ่งกริบ เหมาะกับงานหนัก ทนทานหายห่วง", badge: null },
-            { id: 5, model: "RT", name: "Kubota RT 110", price: 23500, image: "https://placehold.co/800x600/7f1d1d/white?text=RT+110", desc: "ตระกูล RT ทันสมัยขึ้น ระบายความร้อนดีเยี่ยม 11 แรงม้า สภาพนางฟ้า ใช้งานมาน้อยมาก สีเดิมสวยๆ", badge: "สภาพนางฟ้า" },
-            { id: 6, model: "RT", name: "Kubota RT 120", price: 25500, image: "https://placehold.co/800x600/7f1d1d/white?text=RT+120", desc: "พี่ใหญ่ RT 120 แรงสะใจ 12 แรงม้า งานหนักแค่ไหนก็เอาอยู่ ทนทานสุดๆ ตัวท็อปของรุ่น อุปกรณ์ครบ", badge: "Premium" },
-            { id: 7, model: "RT", name: "Kubota RT 140", price: 32000, image: "https://placehold.co/800x600/7f1d1d/white?text=RT+140", desc: "พลัง 14 แรงม้า ตัวท็อปสุด แรงบิดมหาศาล สภาพ 95% เหมือนได้เครื่องใหม่ ราคาคุ้มค่าที่สุดในตลาด", badge: "Rare Item" },
-            { id: 8, model: "Parts", name: "ชุดลูกสูบ ET แท้", price: 1200, image: "https://placehold.co/800x600/334155/white?text=Piston+Set", desc: "อะไหล่แท้เบิกศูนย์ สำหรับเครื่อง ET ทุกรุ่น ครบชุดพร้อมแหวน", badge: "อะไหล่แท้" },
+            { id: 1, model: "ET", name: "Kubota ET 80", price: 9500, image: "images/et80.jpg", fallbackImage: "https://dummyimage.com/800x600/b91c1c/white?text=ET+80", desc: "เครื่องยนต์ดีเซล 8 แรงม้า ราคาประหยัดสุดคุ้ม เหมาะสำหรับผู้เริ่มต้น หรือใช้งานทั่วไป เครื่องเดิมๆ เช็คระบบเรียบร้อย", badge: "Hot Deal" },
+            { id: 2, model: "ET", name: "Kubota ET 95", price: 15500, image: "images/et95.jpg", fallbackImage: "https://dummyimage.com/800x600/b91c1c/white?text=ET+95", desc: "ขนาด 9.5 แรงม้า พลังแรง ประหยัดน้ำมัน สภาพพร้อมใช้งาน 90% รับประกันคุณภาพ สีเดิมโรงงาน ไม่เคยแกะซ่อมใหญ่", badge: "แนะนำ" },
+            { id: 3, model: "ET", name: "Kubota ET 110", price: 19500, image: "images/et110.jpg", fallbackImage: "https://dummyimage.com/800x600/b91c1c/white?text=ET+110", desc: "ยอดนิยม! 11 แรงม้า อะไหล่หาง่าย ซ่อมบำรุงไม่แพง สภาพสวยกริ๊บ พร้อมใช้งานทันที เดินเบานิ่ง เสียงเพราะ", badge: "ขายดี" },
+            { id: 4, model: "ET", name: "Kubota ET 115", price: 22500, image: "images/et115.jpg", fallbackImage: "https://dummyimage.com/800x600/b91c1c/white?text=ET+115", desc: "ตัวแรงรุ่นใหญ่ 11.5 แรงม้า กำลังอัดดีเยี่ยม เสียงนิ่ม เดินเบานิ่งกริบ เหมาะกับงานหนัก ทนทานหายห่วง", badge: null },
+            { id: 5, model: "RT", name: "Kubota RT 110", price: 23500, image: "images/rt110.jpg", fallbackImage: "https://dummyimage.com/800x600/7f1d1d/white?text=RT+110", desc: "ตระกูล RT ทันสมัยขึ้น ระบายความร้อนดีเยี่ยม 11 แรงม้า สภาพนางฟ้า ใช้งานมาน้อยมาก สีเดิมสวยๆ", badge: "สภาพนางฟ้า" },
+            { id: 6, model: "RT", name: "Kubota RT 120", price: 25500, image: "images/rt120.jpg", fallbackImage: "https://dummyimage.com/800x600/7f1d1d/white?text=RT+120", desc: "พี่ใหญ่ RT 120 แรงสะใจ 12 แรงม้า งานหนักแค่ไหนก็เอาอยู่ ทนทานสุดๆ ตัวท็อปของรุ่น อุปกรณ์ครบ", badge: "Premium" },
+            { id: 7, model: "RT", name: "Kubota RT 140", price: 32000, image: "images/rt140.jpg", fallbackImage: "https://dummyimage.com/800x600/7f1d1d/white?text=RT+140", desc: "พลัง 14 แรงม้า ตัวท็อปสุด แรงบิดมหาศาล สภาพ 95% เหมือนได้เครื่องใหม่ ราคาคุ้มค่าที่สุดในตลาด", badge: "Rare Item" },
+            { id: 8, model: "Parts", name: "ชุดลูกสูบ ET แท้", price: 1200, image: "images/piston_et.jpg", fallbackImage: "https://dummyimage.com/800x600/334155/white?text=Piston+Set", desc: "อะไหล่แท้เบิกศูนย์ สำหรับเครื่อง ET ทุกรุ่น ครบชุดพร้อมแหวน", badge: "อะไหล่แท้" },
         ];
 
         const productContainer = document.getElementById('product-list');
@@ -432,6 +434,7 @@
                     <div class="relative h-64 bg-slate-200 overflow-hidden img-loading">
                         <img src="${product.image}" 
                              onload="this.parentElement.classList.remove('img-loading'); this.classList.add('img-loaded');"
+                             onerror="this.onerror=null; this.src='${product.fallbackImage}'; this.parentElement.classList.remove('img-loading'); this.classList.add('img-loaded');"
                              alt="${product.name}" 
                              loading="lazy"
                              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-0">
@@ -565,7 +568,11 @@
             const panel = document.getElementById('modalPanel');
 
             // Populate Data
-            document.getElementById('modalImage').src = product.image;
+            // Enhanced with fallback error handling
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = product.image;
+            modalImg.onerror = function() { this.src = product.fallbackImage; };
+            
             document.getElementById('modalName').innerText = product.name;
             document.getElementById('modalModel').innerText = "รุ่น " + product.model;
             document.getElementById('modalDesc').innerText = product.desc;
