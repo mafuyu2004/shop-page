@@ -1,15 +1,535 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <title>ร้านของฉัน</title>
-</head>
-<body>
-  <h1>ร้านของฉัน</h1>
-  <p>ขายของผ่าน Facebook</p>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>อุทัย อุปกรณ์นากุ้ง - Premium Dealer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <a href="https://m.me/ชื่อเพจ" target="_blank">
-    ทักแชท Facebook
-  </a>
+    <style>
+        body { font-family: 'Kanit', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
+
+        /* Premium Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hero Pattern Background */
+        .hero-bg {
+            background-color: #111;
+            background-image:
+                linear-gradient(rgba(220, 38, 38, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(220, 38, 38, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: relative;
+        }
+        .hero-overlay {
+            background: radial-gradient(circle at center, transparent 0%, #f8fafc 100%);
+        }
+
+        /* Product Card - Glassmorphism & Premium Hover */
+        .product-card {
+            background: white;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(0,0,0,0.04);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .product-card:active {
+            transform: scale(0.98);
+        }
+        @media (min-width: 768px) {
+            .product-card:hover {
+                transform: translateY(-8px) scale(1.01);
+                box-shadow: 0 20px 40px -10px rgba(220, 38, 38, 0.15);
+                border-color: rgba(220, 38, 38, 0.2);
+            }
+        }
+
+        /* Inquiry Card Style */
+        .inquiry-card {
+            background: linear-gradient(135deg, #fff1f2 0%, #fff 100%);
+            border: 2px dashed #fca5a5;
+        }
+        .inquiry-card:active {
+            background: #ffe4e6;
+            transform: scale(0.98);
+        }
+
+        /* Modal / Popup Animation */
+        #productModal {
+            transition: opacity 0.2s ease;
+        }
+        #productModal.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #productModal:not(.hidden) {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.95);
+            transition: transform 0.2s ease;
+        }
+        #productModal:not(.hidden) .modal-content {
+            transform: scale(1);
+        }
+
+        /* Messenger Float Animation */
+        @keyframes pulse-red {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+        .messenger-pulse {
+            animation: pulse-red 2s infinite;
+        }
+
+        /* Horizontal Scroll Hide */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-gray-700 antialiased overflow-x-hidden bg-gray-50/50">
+
+    <!-- 1. Navbar (Mobile Optimized) -->
+    <nav class="bg-white/85 backdrop-blur-md text-gray-800 py-3 shadow-sm sticky top-0 z-50 border-b border-gray-100/50 transition-all duration-300">
+        <div class="w-full max-w-[1600px] mx-auto px-4 md:px-6 flex justify-between items-center">
+            <!-- Brand -->
+            <div class="flex items-center gap-2.5">
+                <div class="bg-gradient-to-br from-red-600 to-red-800 text-white w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center shadow-lg shadow-red-200">
+                    <i class="fas fa-shrimp text-base md:text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-base md:text-xl font-extrabold tracking-tight text-gray-900 leading-none">อุทัย <span class="text-red-600">นากุ้ง</span></h1>
+                    <p class="text-[9px] md:text-[10px] text-gray-500 font-medium tracking-wider uppercase">Premium Dealer</p>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex gap-2">
+                <!-- Mobile Call Button (Icon Only) -->
+                <a href="tel:0890919459" class="lg:hidden bg-gray-100 active:bg-gray-200 text-gray-700 w-9 h-9 rounded-full flex items-center justify-center transition border border-gray-200">
+                    <i class="fas fa-phone text-red-500 text-sm"></i>
+                </a>
+
+                <!-- Desktop Call Button -->
+                <a href="tel:0890919459" class="hidden lg:flex bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 px-5 py-2 rounded-full text-xs font-bold items-center gap-2 transition hover:border-red-200 hover:text-red-600">
+                    <i class="fas fa-phone text-red-500"></i> 089-091-9459
+                </a>
+
+                <!-- Chat Button -->
+                <a href="#" onclick="contactPage()" class="bg-gray-900 active:bg-black text-white px-4 py-2 md:px-5 rounded-full text-xs font-bold shadow-lg shadow-gray-200 flex items-center gap-2">
+                    <i class="fab fa-facebook-messenger"></i> <span class="hidden xs:inline sm:inline">สอบถามราคา</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. Hero Section (Mobile Optimized Padding) -->
+    <header class="hero-bg relative pt-8 pb-16 md:pt-16 md:pb-24 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#f8fafc]"></div>
+
+        <div class="w-[95%] max-w-[1600px] mx-auto px-4 md:px-6 relative z-10 flex flex-col items-center text-center">
+            <div class="inline-flex items-center gap-2 py-1 px-3 md:px-4 rounded-full bg-white/90 backdrop-blur text-red-700 text-[10px] md:text-xs font-bold mb-4 md:mb-6 shadow-sm border border-red-100 animate-fade-in-up">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
+                คัดเกรด A+ สภาพนางฟ้าทุกตัว
+            </div>
+
+            <h2 class="text-3xl md:text-6xl font-black mb-4 md:mb-6 leading-tight text-gray-900 tracking-tight">
+                ศูนย์รวมเครื่องยนต์ <br class="md:hidden" />
+                <span class="gradient-text relative inline-block">
+                    มือสอง
+                </span>
+            </h2>
+
+            <p class="text-gray-500 mb-8 max-w-2xl mx-auto text-sm md:text-lg font-light leading-relaxed px-4">
+                เชี่ยวชาญเรื่อง <span class="font-semibold text-gray-800">Kubota ET & RT</span>
+                คัดสภาพพร้อมใช้ เช็คจบ ครบ พร้อมลุย
+            </p>
+
+            <!-- Search Bar (Mobile Optimized) -->
+            <div class="w-full max-w-2xl bg-white p-1.5 rounded-xl md:rounded-2xl shadow-xl shadow-gray-200/50 flex gap-2 border border-gray-100 relative top-2">
+                <div class="relative flex-1">
+                    <i class="fas fa-search absolute left-3 md:left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm md:text-base"></i>
+                    <input type="text" id="searchInput" placeholder="ค้นหารุ่นสินค้า..."
+                           class="w-full pl-9 md:pl-10 pr-4 py-2.5 md:py-3 rounded-lg md:rounded-xl bg-gray-50 active:bg-white focus:bg-white focus:outline-none focus:ring-2 focus:ring-red-100 transition text-gray-800 text-sm md:text-base placeholder-gray-400">
+                </div>
+                <button onclick="scrollToProducts()" class="bg-red-600 active:bg-red-700 text-white px-4 md:px-8 py-2 md:py-3 rounded-lg md:rounded-xl font-bold text-sm md:text-base transition shadow-md whitespace-nowrap">
+                    ค้นหา
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. Category Filter (Mobile Horizontal Scroll) -->
+    <div id="product-section" class="sticky top-[60px] md:top-[68px] z-40 py-3 transition-all duration-300 backdrop-blur-md bg-[#f8fafc]/90 border-b border-gray-200/60 shadow-sm">
+        <div class="w-full max-w-[1600px] mx-auto">
+            <!-- Mobile: Horizontal Scroll / Desktop: Center Wrap -->
+            <div class="flex md:flex-wrap md:justify-center gap-2 overflow-x-auto no-scrollbar px-4 md:px-0 snap-x">
+                <button onclick="filterProducts('all')" class="filter-btn active flex-shrink-0 snap-start px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-gray-900 text-white shadow-lg shadow-gray-400/20">ทั้งหมด</button>
+                <button onclick="filterProducts('ET')" class="filter-btn flex-shrink-0 snap-start px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-white text-gray-600 border border-gray-200">ตระกูล ET</button>
+                <button onclick="filterProducts('RT')" class="filter-btn flex-shrink-0 snap-start px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-white text-gray-600 border border-gray-200">ตระกูล RT</button>
+                <button onclick="filterProducts('Parts')" class="filter-btn flex-shrink-0 snap-start px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-white text-gray-600 border border-gray-200">อะไหล่</button>
+                <!-- Spacer for mobile scroll end -->
+                <div class="w-2 md:hidden flex-shrink-0"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Product Grid -->
+    <main class="w-full max-w-[1600px] mx-auto px-4 md:px-6 py-8 md:py-12 min-h-[600px]">
+        <div class="flex justify-between items-end mb-6 border-b border-gray-200 pb-3">
+            <h3 class="text-lg md:text-xl font-bold text-gray-800">สินค้าแนะนำ</h3>
+            <span class="text-[10px] md:text-xs text-gray-500 font-medium bg-gray-100 px-2 md:px-3 py-1 rounded-full"><span id="product-count" class="font-bold text-red-600">0</span> รายการ</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6" id="product-list">
+            <!-- สินค้าจะถูกสร้างด้วย JavaScript -->
+        </div>
+
+        <!-- Not Found State -->
+        <div id="no-result" class="hidden flex flex-col items-center justify-center py-12 md:py-20 text-center">
+            <div class="w-20 h-20 md:w-24 md:h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4 md:mb-6">
+                <i class="fas fa-search text-2xl md:text-3xl text-gray-400"></i>
+            </div>
+            <h4 class="text-lg md:text-xl font-bold text-gray-900 mb-2">ไม่พบสินค้า</h4>
+            <button onclick="contactPage()" class="bg-gray-900 text-white px-6 py-2 rounded-lg text-sm font-bold shadow transition mt-4">
+                ทักแชทสอบถาม
+            </button>
+        </div>
+    </main>
+
+    <!-- 5. Product Detail Modal -->
+    <div id="productModal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+
+        <div class="modal-content bg-white w-full max-w-3xl rounded-2xl shadow-2xl relative overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
+            <button onclick="closeModal()" class="absolute top-3 right-3 z-20 bg-white/80 active:bg-white text-gray-800 rounded-full w-8 h-8 flex items-center justify-center backdrop-blur transition shadow-sm">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="w-full md:w-1/2 bg-gray-100 relative group h-64 md:h-auto">
+                <img id="modalImage" src="" alt="Product" class="w-full h-full object-cover">
+                <div class="absolute bottom-4 left-4 right-4">
+                   <div class="bg-white/95 backdrop-blur px-4 py-3 rounded-xl shadow-lg flex justify-between items-center">
+                       <span class="text-xs text-gray-500 font-medium">ราคาเริ่มต้น</span>
+                       <span id="modalPriceBadge" class="text-red-600 font-bold text-xl">฿--,--</span>
+                   </div>
+                </div>
+            </div>
+
+            <div class="w-full md:w-1/2 p-5 md:p-8 flex flex-col overflow-y-auto bg-white">
+                <div class="flex items-center gap-2 mb-3">
+                    <span id="modalModel" class="px-2.5 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold rounded uppercase tracking-wide">Model</span>
+                    <span class="px-2.5 py-1 bg-green-50 text-green-700 text-[10px] font-bold rounded uppercase tracking-wide">พร้อมส่ง</span>
+                </div>
+
+                <h3 id="modalName" class="text-xl md:text-2xl font-bold text-gray-900 mb-3 leading-snug">Product Name</h3>
+
+                <div class="prose prose-sm text-gray-600 mb-6 flex-1">
+                    <p id="modalDesc" class="leading-relaxed text-sm">Description...</p>
+                    <ul class="mt-4 space-y-2 text-xs text-gray-500 font-medium bg-gray-50 p-3 md:p-4 rounded-xl border border-gray-100">
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>ตรวจเช็คสภาพ 100%</li>
+                        <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-2"></i>ประกันการใช้งาน</li>
+                    </ul>
+                </div>
+
+                <div class="mt-auto pt-2">
+                    <button id="modalBuyBtn" class="w-full bg-blue-600 active:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition flex justify-center items-center gap-2 mb-2.5">
+                        <i class="fab fa-facebook-messenger text-lg"></i> ทักแชทสอบถาม
+                    </button>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="tel:0890919459" class="bg-white border border-gray-200 active:bg-gray-50 text-gray-700 font-bold py-2.5 px-4 rounded-xl transition flex justify-center items-center gap-2 text-sm">
+                            <i class="fas fa-phone-alt text-gray-400"></i> โทรด่วน
+                        </a>
+                        <button onclick="closeModal()" class="bg-gray-50 active:bg-gray-100 text-gray-600 font-bold py-2.5 px-4 rounded-xl transition text-sm">
+                            ปิด
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Messenger Button -->
+    <a href="#" onclick="contactPage()" class="fixed bottom-6 right-4 md:right-6 z-40 w-12 h-12 md:w-14 md:h-14 bg-gradient-to-tr from-blue-600 to-blue-500 text-white rounded-full shadow-xl flex items-center justify-center messenger-pulse active:scale-95 transition border-2 border-white">
+        <i class="fab fa-facebook-messenger text-xl md:text-2xl"></i>
+    </a>
+
+    <!-- Footer (Dark & Compact Version) -->
+    <footer class="bg-gray-900 border-t border-gray-800 mt-12 pt-8 pb-8 rounded-t-3xl md:rounded-none">
+        <div class="w-full max-w-[1600px] mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+
+            <div class="flex items-center gap-4">
+                <div class="bg-gray-800 text-white w-10 h-10 rounded-lg flex items-center justify-center border border-gray-700">
+                    <i class="fas fa-shrimp"></i>
+                </div>
+                <div class="text-left">
+                    <h3 class="font-bold text-white text-sm">อุทัยอุปกรณ์นากุ้ง</h3>
+                    <p class="text-xs text-gray-400">Premium Dealer</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center gap-3 md:gap-8 text-sm text-gray-400">
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-map-marker-alt text-red-500"></i>
+                    <span>ต.สีพยา อ.ท่าใหม่ จ.จันทบุรี</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fas fa-phone text-red-500"></i>
+                    <a href="tel:0890919459" class="hover:text-white transition font-medium">089-091-9459</a>
+                </div>
+            </div>
+
+            <div class="text-[10px] text-gray-600">
+                &copy; 2024 Uthai Shop.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const FACEBOOK_PAGE_ID = "100077451158690";
+
+        // ข้อมูลสินค้า
+        const products = [
+            {
+                id: 1,
+                model: "ET",
+                name: "Kubota ET 80",
+                price: 9500,
+                priceText: "9,500.-",
+                image: "et80.jpg",
+                fallbackImage: "https://placehold.co/600x400/b91c1c/white?text=ET+80",
+                desc: "เครื่องยนต์ดีเซล 8 แรงม้า ราคาประหยัดสุดคุ้ม เหมาะสำหรับผู้เริ่มต้น หรือใช้งานทั่วไป เครื่องเดิมๆ",
+                badge: "ราคาพิเศษ"
+            },
+            {
+                id: 2,
+                model: "ET",
+                name: "Kubota ET 95",
+                price: 15500,
+                priceText: "15,500.-",
+                image: "et95.jpg",
+                fallbackImage: "https://placehold.co/600x400/b91c1c/white?text=ET+95",
+                desc: "ขนาด 9.5 แรงม้า พลังแรง ประหยัดน้ำมัน สภาพพร้อมใช้งาน 90% รับประกันคุณภาพ สีเดิมโรงงาน",
+                badge: "แนะนำ"
+            },
+            {
+                id: 3,
+                model: "ET",
+                name: "Kubota ET 110",
+                price: 19500,
+                priceText: "19,500.-",
+                image: "et110.jpg",
+                fallbackImage: "https://placehold.co/600x400/b91c1c/white?text=ET+110",
+                desc: "ยอดนิยม! 11 แรงม้า อะไหล่หาง่าย ซ่อมบำรุงไม่แพง สภาพสวยกริ๊บ พร้อมใช้งานทันที",
+                badge: "ยอดนิยม"
+            },
+            {
+                id: 4,
+                model: "ET",
+                name: "Kubota ET 115",
+                price: 22500,
+                priceText: "22,500.-",
+                image: "et115.jpg",
+                fallbackImage: "https://placehold.co/600x400/b91c1c/white?text=ET+115",
+                desc: "ตัวแรงรุ่นใหญ่ 11.5 แรงม้า กำลังอัดดีเยี่ยม เสียงนิ่ม เดินเบานิ่งกริบ เหมาะกับงานหนัก",
+                badge: ""
+            },
+            {
+                id: 5,
+                model: "RT",
+                name: "Kubota RT 110",
+                price: 23500,
+                priceText: "23,500.-",
+                image: "rt110.jpg",
+                fallbackImage: "https://placehold.co/600x400/7f1d1d/white?text=RT+110",
+                desc: "ตระกูล RT ทันสมัยขึ้น ระบายความร้อนดีเยี่ยม 11 แรงม้า สภาพนางฟ้า ใช้งานมาน้อยมาก",
+                badge: "สภาพนางฟ้า"
+            },
+            {
+                id: 6,
+                model: "RT",
+                name: "Kubota RT 120",
+                price: 25500,
+                priceText: "25,500.-",
+                image: "rt120.jpg",
+                fallbackImage: "https://placehold.co/600x400/7f1d1d/white?text=RT+120",
+                desc: "พี่ใหญ่ RT 120 แรงสะใจ 12 แรงม้า งานหนักแค่ไหนก็เอาอยู่ ทนทานสุดๆ ตัวท็อปของรุ่น",
+                badge: "พรีเมียม"
+            }
+        ];
+
+        const productContainer = document.getElementById('product-list');
+        const searchInput = document.getElementById('searchInput');
+        const noResult = document.getElementById('no-result');
+        const productCountSpan = document.getElementById('product-count');
+        let currentFilter = 'all';
+
+        // Initialize
+        renderProducts(products);
+
+        // Render Function
+        function renderProducts(items) {
+            productContainer.innerHTML = '';
+            productCountSpan.innerText = items.length;
+
+            if (items.length === 0) {
+                noResult.classList.remove('hidden');
+                noResult.classList.add('flex');
+            } else {
+                noResult.classList.add('hidden');
+                noResult.classList.remove('flex');
+
+                // Render Normal Items
+                items.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card rounded-xl md:rounded-2xl overflow-hidden flex flex-col relative group cursor-pointer h-full';
+                    card.onclick = (e) => {
+                        if(!e.target.closest('button') && !e.target.closest('a')) {
+                            openModal(product);
+                        }
+                    };
+
+                    card.innerHTML = `
+                        <div class="relative h-48 md:h-56 bg-gray-100 overflow-hidden">
+                            <img src="${product.image}"
+                                 onerror="this.onerror=null; this.src='${product.fallbackImage}';"
+                                 alt="${product.name}"
+                                 class="w-full h-full object-cover transition-transform duration-700 md:group-hover:scale-110">
+
+                            ${product.badge ? `
+                                <span class="absolute top-2 left-2 md:top-3 md:left-3 bg-red-600 text-white text-[9px] md:text-[10px] font-bold px-2 py-1 rounded shadow-md uppercase tracking-wider z-10">
+                                    ${product.badge}
+                                </span>` : ''}
+
+                            <div class="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-black/60 to-transparent p-3 pt-10 flex justify-end items-end">
+                                <span class="text-white font-bold text-base md:text-lg drop-shadow-md">${product.priceText}</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 md:p-5 flex-1 flex flex-col">
+                            <div class="flex justify-between items-start mb-1.5">
+                                <span class="text-[9px] md:text-[10px] font-bold text-gray-400 uppercase tracking-widest border border-gray-100 px-1.5 py-0.5 rounded bg-gray-50">Model ${product.model}</span>
+                            </div>
+
+                            <h4 class="text-base md:text-lg font-bold text-gray-900 mb-1.5 leading-tight md:group-hover:text-red-600 transition line-clamp-1">${product.name}</h4>
+                            <p class="text-gray-500 text-[11px] md:text-xs mb-3 line-clamp-2 leading-relaxed h-8">${product.desc}</p>
+
+                            <div class="mt-auto">
+                                <button onclick="buyProduct('${product.name}', event)"
+                                        class="w-full bg-gray-50 active:bg-gray-200 md:hover:bg-gray-900 text-gray-900 md:hover:text-white border border-gray-200 md:hover:border-gray-900 text-xs md:text-sm font-bold py-2 md:py-2.5 px-4 rounded-lg md:rounded-xl transition flex justify-center items-center gap-2">
+                                    <i class="fab fa-facebook-messenger"></i> สนใจสินค้านี้
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    productContainer.appendChild(card);
+                });
+
+                // Inquiry Card
+                if (currentFilter === 'all' || currentFilter === 'Parts') {
+                    const inquiryCard = document.createElement('div');
+                    inquiryCard.className = 'inquiry-card rounded-xl md:rounded-2xl overflow-hidden flex flex-col items-center justify-center p-6 text-center cursor-pointer h-full min-h-[300px] md:min-h-[350px] group transition-all duration-300';
+                    inquiryCard.onclick = () => contactPage();
+                    inquiryCard.innerHTML = `
+                        <div class="w-14 h-14 md:w-16 md:h-16 bg-white text-red-500 rounded-full flex items-center justify-center mb-4 shadow-sm md:group-hover:scale-110 transition-transform duration-300">
+                            <i class="fas fa-question text-xl md:text-2xl"></i>
+                        </div>
+                        <h4 class="text-base md:text-lg font-bold text-gray-900 mb-2">หาสินค้าไม่เจอ?</h4>
+                        <p class="text-gray-600 text-[11px] md:text-xs mb-5 max-w-[180px]">
+                            เรายังมีเครื่องยนต์และอะไหล่อีกเพียบ
+                        </p>
+                        <button class="bg-white border border-red-200 text-red-600 active:bg-red-50 px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all shadow-sm">
+                            สอบถามเลย
+                        </button>
+                    `;
+                    productContainer.appendChild(inquiryCard);
+                }
+            }
+        }
+
+        // Modal System
+        function openModal(product) {
+            const modal = document.getElementById('productModal');
+            document.getElementById('modalImage').src = product.image;
+            document.getElementById('modalImage').onerror = function() { this.src = product.fallbackImage; };
+            document.getElementById('modalName').innerText = product.name;
+            document.getElementById('modalModel').innerText = "รุ่น " + product.model;
+            document.getElementById('modalDesc').innerText = product.desc;
+            document.getElementById('modalPriceBadge').innerText = product.priceText;
+
+            const buyBtn = document.getElementById('modalBuyBtn');
+            buyBtn.onclick = () => buyProduct(product.name);
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") closeModal();
+        });
+
+        function filterProducts(category) {
+            currentFilter = category;
+
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const isSelected = btn.innerText.includes(category === 'all' ? 'ทั้งหมด' : category);
+                // Reset styling
+                btn.className = isSelected
+                    ? 'filter-btn active flex-shrink-0 snap-start px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-gray-900 text-white shadow-lg shadow-gray-400/20'
+                    : 'filter-btn flex-shrink-0 snap-start px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all bg-white text-gray-600 border border-gray-200';
+            });
+
+            filterAndSearch();
+        }
+
+        searchInput.addEventListener('input', filterAndSearch);
+
+        function filterAndSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filtered = products.filter(product => {
+                const matchCategory = currentFilter === 'all' || product.model === currentFilter;
+                const matchSearch = product.name.toLowerCase().includes(searchTerm) ||
+                                    product.desc.toLowerCase().includes(searchTerm);
+                return matchCategory && matchSearch;
+            });
+            renderProducts(filtered);
+        }
+
+        function buyProduct(name, event) {
+            if(event) event.stopPropagation();
+            const message = `สวัสดีครับ สนใจสินค้า ${name} ราคาตามหน้าเว็บ ยังมีของไหมครับ?`;
+            const url = `https://m.me/${FACEBOOK_PAGE_ID}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        function contactPage() {
+             window.open(`https://m.me/${FACEBOOK_PAGE_ID}`, '_blank');
+        }
+
+        function scrollToProducts() {
+            document.getElementById('product-section').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
